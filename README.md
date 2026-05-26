@@ -4,4 +4,6 @@
 
 This is the "Foundations of Software Languages" Ontology.
 
+See the accompanying paper here: https://arxiv.org/abs/2605.17374
+
 The following license applies: https://creativecommons.org/licenses/by/4.0/deed.en
