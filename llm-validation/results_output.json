@@ -1,0 +1,38 @@
+[
+  {
+    "file": "results/comment_violation.txt",
+    "parsed_violation": {
+      "focus_node": ":Entity",
+      "message": "Class declaration is missing an rdfs:comment.",
+      "shape": "ve:ClassDeclarationsMustHaveCommentShape"
+    },
+    "llm_output": {
+      "focus_node": ":Entity",
+      "shape": "ve:ClassDeclarationsMustHaveCommentShape",
+      "issue": "Class declaration is missing an rdfs:comment.",
+      "why_it_matters": "",
+      "fix_rdf": "http://example.org/Entity a owl:Class ; rdfs:comment \"This class represents entities in general\" ."
+    },
+    "warnings": [
+      "Subject URI missing angle brackets",
+      "Placeholder URI detected",
+      "Empty explanation"
+    ]
+  },
+  {
+    "file": "results/foaf_violation.txt",
+    "parsed_violation": {
+      "focus_node": ":Entity",
+      "message": "Class declaration is missing both foaf:page and foaf:isPrimaryTopicOf.",
+      "shape": "ve:ClassDeclarationsMustHaveFoafLinkShape"
+    },
+    "llm_output": {
+      "error": "no_json_found",
+      "raw": "{\n  \"focus_node\": \":Entity\",\n  \"shape\": \"ve:ClassDeclarationsMustHaveFoafLinkShape\",\n  \"issue\": \"Class declaration is missing both foaf:page and foaf:isPrimaryTopicOf.\",\n  \"why_it_matters\": \"\",\n  \"fix_rdf\": \"\"\"\n    @prefix foaf: <http://xmlns.com/foaf/0.1/> .\n    :Entity a owl:Class ;\n           foaf:page <http://example.org/Entity> ;\n           foaf:isPrimaryTopicOf <http://example.org/EntityWikipediaPage> .\n  \"\"\""
+    },
+    "warnings": [
+      "Empty explanation",
+      "Missing RDF fix"
+    ]
+  }
+]
