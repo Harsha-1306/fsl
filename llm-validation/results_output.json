@@ -1,5 +1,17 @@
 [
   {
+    "file": "results/broken.txt",
+    "parsed_violation": {
+      "focus_node": null,
+      "message": null,
+      "shape": null
+    },
+    "llm_output": null,
+    "warnings": [
+      "Incomplete SHACL report"
+    ]
+  },
+  {
     "file": "results/comment_violation.txt",
     "parsed_violation": {
       "focus_node": ":Entity",
@@ -10,14 +22,10 @@
       "focus_node": ":Entity",
       "shape": "ve:ClassDeclarationsMustHaveCommentShape",
       "issue": "Class declaration is missing an rdfs:comment.",
-      "why_it_matters": "",
-      "fix_rdf": "http://example.org/Entity a owl:Class ; rdfs:comment \"This class represents entities in general\" ."
+      "why_it_matters": "The class declaration is incomplete because it lacks a description.",
+      "fix_rdf": "@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .\n<Entity> rdfs:comment \"A brief description of Entity\" ."
     },
-    "warnings": [
-      "Subject URI missing angle brackets",
-      "Placeholder URI detected",
-      "Empty explanation"
-    ]
+    "warnings": []
   },
   {
     "file": "results/foaf_violation.txt",
@@ -27,12 +35,41 @@
       "shape": "ve:ClassDeclarationsMustHaveFoafLinkShape"
     },
     "llm_output": {
-      "error": "no_json_found",
-      "raw": "{\n  \"focus_node\": \":Entity\",\n  \"shape\": \"ve:ClassDeclarationsMustHaveFoafLinkShape\",\n  \"issue\": \"Class declaration is missing both foaf:page and foaf:isPrimaryTopicOf.\",\n  \"why_it_matters\": \"\",\n  \"fix_rdf\": \"\"\"\n    @prefix foaf: <http://xmlns.com/foaf/0.1/> .\n    :Entity a owl:Class ;\n           foaf:page <http://example.org/Entity> ;\n           foaf:isPrimaryTopicOf <http://example.org/EntityWikipediaPage> .\n  \"\"\""
+      "error": "invalid_json",
+      "raw": "{\n  \"focus_node\": \":Entity\",\n  \"shape\": \"ve:ClassDeclarationsMustHaveFoafLinkShape\",\n  \"issue\": \"Class declaration is missing both foaf:page and foaf:isPrimaryTopicOf.\",\n  \"why_it_matters\": \"To ensure proper linking and identification of the entity class in the knowledge graph.\",\n  \"fix_rdf\": \"\"\"\n    :Entity a owl:Class;\n      rdfs:label \"Entity\"@en;\n      foaf:page <https://example.com/entity>;\n      foaf:isPrimaryTopicOf <https://example.org/entity>.\n    \"\"\"\n}"
     },
     "warnings": [
-      "Empty explanation",
-      "Missing RDF fix"
+      "LLM parsing failed (invalid_json)"
+    ]
+  },
+  {
+    "file": "results/property_comment.txt",
+    "parsed_violation": {
+      "focus_node": ":hasAuthor",
+      "message": "Property declaration is missing an rdfs:comment.",
+      "shape": "ve:PropertyDeclarationsMustHaveCommentShape"
+    },
+    "llm_output": {
+      "error": "invalid_json",
+      "raw": "{\n  \"focus_node\": \":hasAuthor\",\n  \"shape\": \"ve:PropertyDeclarationsMustHaveCommentShape\",\n  \"issue\": \"Property declaration is missing an rdfs:comment.\",\n  \"why_it_matters\": \"\",\n  \"fix_rdf\": \"\"\"\n    :hasAuthor a rdf:Property ;\n      rdfs:domain ve:ContentObject ;\n      rdfs:range ve:Person ;\n      rdfs:comment \"This property declares the author of a content object.\" .\n\"\"\"\n}"
+    },
+    "warnings": [
+      "LLM parsing failed (invalid_json)"
+    ]
+  },
+  {
+    "file": "results/sample_violation.txt",
+    "parsed_violation": {
+      "focus_node": ":Entity",
+      "message": "Class declaration is missing an rdfs:comment.",
+      "shape": "ve:ClassDeclarationsMustHaveCommentShape"
+    },
+    "llm_output": {
+      "error": "invalid_json",
+      "raw": "{\n  \"focus_node\": \":Entity\",\n  \"shape\": \"ve:ClassDeclarationsMustHaveCommentShape\",\n  \"issue\": \"Class declaration is missing an rdfs:comment.\",\n  \"why_it_matters\": \"\",\n  \"fix_rdf\": \"\"\"\n    @prefix : <http://example.org/> .\n    :Entity a owl:Class ;\n      rdfs:comment \"A class representing an entity.\" .\n    \"\"\"\n}"
+    },
+    "warnings": [
+      "LLM parsing failed (invalid_json)"
     ]
   }
 ]

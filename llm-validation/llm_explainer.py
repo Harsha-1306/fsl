@@ -32,11 +32,12 @@ def safe_parse_llm_output(raw):
 # Files containing SHACL violations
 # -----------------------------------
 
-files = [
-    "results/comment_violation.txt",
-    "results/foaf_violation.txt"
-]
+from pathlib import Path
 
+files = sorted(Path("results").glob("*.txt"))
+
+if not files:
+    raise FileNotFoundError("No validation reports found in results/")
 # -----------------------------------
 # Parse SHACL report
 # -----------------------------------
@@ -178,11 +179,38 @@ for file in files:
     print("\nParsed:")
     print(v)
 
+    # -------------------------------
+    # Skip incomplete SHACL reports
+    # -------------------------------
+    if not all([v["focus_node"], v["shape"], v["message"]]):
+
+        print("\nSkipping incomplete validation report.")
+
+        results.append({
+            "file": str(file),
+            "parsed_violation": v,
+            "llm_output": None,
+            "warnings": ["Incomplete SHACL report"]
+        })
+
+        continue
+
+    # -------------------------------
+    # Call the LLM only for valid reports
+    # -------------------------------
+    # -------------------------------
+    # Call the LLM only for valid reports
+    # -------------------------------
     raw = explain_with_llm(v)
 
     parsed = safe_parse_llm_output(raw)
 
-    warnings = evaluate_output(parsed)
+    if "error" in parsed:
+        warnings = [
+            f"LLM parsing failed ({parsed['error']})"
+        ]
+    else:
+        warnings = evaluate_output(parsed)
 
     print("\nLLM Output:\n")
     print(json.dumps(parsed, indent=2))
@@ -198,13 +226,12 @@ for file in files:
         print("\nNo warnings detected.")
 
     results.append({
-        "file": file,
+        "file": str(file),
         "parsed_violation": v,
         "llm_output": parsed,
         "warnings": warnings
+	
     })
-
-
 # -----------------------------------
 # Save results
 # -----------------------------------
