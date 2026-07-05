@@ -29,6 +29,11 @@ jobs:
             echo "No Makefile found, running fallback validation"
             python -m pyshacl -s ontologies -e ontologies test_fail.ttl
           fi
+      - name: Fail CI on SHACL violation
+        run: |
+          if grep -R "Severity: sh:Violation" validation/*.log; then
+            exit 1
+          fi
            
       - name: Fail if SHACL violations exist
         run: |
