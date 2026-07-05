@@ -29,6 +29,15 @@ jobs:
             echo "No Makefile found, running fallback validation"
             python -m pyshacl -s ontologies -e ontologies test_fail.ttl || true
           fi
+           
+       - name: Fail if SHACL violations exist
+         run: |
+           if grep -R "Severity: sh:Violation" validation/*.log; then
+             echo "❌ SHACL violations found."
+             exit 1
+           else
+             echo "✅ No SHACL violations."
+           fi
 
       - name: Upload validation logs
         uses: actions/upload-artifact@v4
