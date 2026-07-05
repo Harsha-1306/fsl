@@ -27,7 +27,7 @@ jobs:
             make -C validation
           else
             echo "No Makefile found, running fallback validation"
-            python -m pyshacl -s ontologies -e ontologies test_fail.ttl || true
+            python -m pyshacl -s ontologies -e ontologies test_fail.ttl
           fi
            
       - name: Fail if SHACL violations exist
