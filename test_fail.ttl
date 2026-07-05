@@ -1,5 +1,5 @@
 @prefix : <http://example.org/> .
 
-
 :BrokenClass a owl:Class ;
-  rdfs:label "test" .
+    :completelyInvalidProperty "x" .
+
